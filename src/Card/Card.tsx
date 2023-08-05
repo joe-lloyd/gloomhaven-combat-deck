@@ -8,7 +8,6 @@ interface CardProps {
   backImage?: string;
   className?: string;
   drawAnimationTrigger: boolean;
-  shuffleAnimationTrigger: boolean;
 }
 
 function Card({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg" }: CardProps) {

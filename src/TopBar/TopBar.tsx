@@ -1,22 +1,9 @@
-// TopBar.tsx
 import React, { useContext } from 'react';
-import { ShuffleContext } from '../contexts/ShuffleContext';
 import './TopBar.css';
-import { DrawContext } from "../contexts/DrawContext";
+import { DeckContext } from "../contexts/DeckContext";
 
 const TopBar: React.FC = () => {
-  const shuffleContext = useContext(ShuffleContext);
-  const drawContext = useContext(DrawContext);
-
-  if (!shuffleContext) {
-    throw new Error("TopBar must be used within a ShuffleProvider");
-  }
-  if (!drawContext) {
-    throw new Error("TopBar must be used within a DrawProvider");
-  }
-
-  const { shuffle, isShuffling } = shuffleContext;
-  const { triggerDraw, isDrawing } = drawContext;
+  const { isShuffling, isDrawing, shuffle, draw } = useContext(DeckContext);
 
   return (
     <div className="top-bar">
@@ -27,7 +14,7 @@ const TopBar: React.FC = () => {
         Shuffle
       </button>
       <button className="draw-btn"
-              onClick={triggerDraw}
+              onClick={draw}
               disabled={isShuffling || isDrawing}
       >
         Draw
