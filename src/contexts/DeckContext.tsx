@@ -62,7 +62,7 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
       setDeck(newDeck);
       setDrawnCard(card || null);
       setIsDrawing(false);
-    }, 1500);
+    }, 2500);
   };
 
   return (
