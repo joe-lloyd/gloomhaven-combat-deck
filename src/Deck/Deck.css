@@ -1,0 +1,61 @@
+.deck {
+  margin-top: 50vh;
+  transform: translate(0 , -50%);
+  position: relative;
+  width: 300px;
+  height: 203px;
+}
+
+div.shuffle {
+  animation: riffle 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+div:nth-child(1).shuffle {
+  animation: riffle 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+div:nth-child(2).shuffle {
+  animation: riffleExtra10 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+div:nth-child(3).shuffle {
+  animation: riffleExtraMinus10 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+div:nth-child(4).shuffle {
+  animation: riffleExtra20 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+div:nth-child(5).shuffle {
+  animation: riffleExtraMinus20 0.8s cubic-bezier(.32,2,.55,.27);
+}
+
+@keyframes riffle {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-50px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes riffleExtra10 {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes riffleExtraMinus10 {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-70px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes riffleExtra20 {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes riffleExtraMinus20 {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-70px); }
+  100% { transform: translateY(0px); }
+}

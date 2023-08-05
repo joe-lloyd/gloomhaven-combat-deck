@@ -1,0 +1,54 @@
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: var(--top-bar-bg);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1; /* Ensures the top bar stays on top */
+}
+
+button {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0px 2px;
+  box-shadow: 0 9px var(--secondary-accent);
+  transition: all 0.3s;
+  background-color: var(--primary-accent);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--secondary-accent);
+}
+
+button:active {
+  background-color: var(--primary-accent);
+  transform: translateY(4px);
+}
+
+button:disabled {
+  background-color: #BEBEBE;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+button:disabled:hover {
+  background-color: #BEBEBE;
+}
+
+button:disabled:active {
+  background-color: #BEBEBE;
+  box-shadow: none;
+  transform: none;
+}

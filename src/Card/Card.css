@@ -1,0 +1,35 @@
+.card-container {
+  width: 300px;
+  height: 203px;
+  perspective: 1000px; /* This gives a 3D space to the container */
+  position: absolute;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d; /* Move this here to maintain 3D space during rotation */
+  border-radius: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden; /* Move this here to hide back of the entire card */
+  -webkit-backface-visibility: hidden; /* For Safari */
+}
+
+.card-front {
+  transform: rotateY(180deg);
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
