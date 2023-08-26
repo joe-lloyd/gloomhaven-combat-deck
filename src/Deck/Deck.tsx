@@ -9,9 +9,8 @@ const Deck: React.FC = () => {
   return (
     <div className="deck">
       {deck.map((card, index) => (
-        <div className={isShuffling ? 'shuffle' : ''}>
+        <div key={card.id} className={isShuffling ? 'shuffle' : ''}>
           <Card
-            key={card.id}
             frontImage={card.image}
             drawAnimationTrigger={index === deck.length - 1 && isDrawing}
             index={index}

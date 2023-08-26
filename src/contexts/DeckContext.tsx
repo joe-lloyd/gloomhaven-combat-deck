@@ -8,6 +8,7 @@ interface Card {
 
 interface DeckContextProps {
   deck: Card[];
+  discardPile: Card[];
   drawnCard: Card | null;
   isShuffling: boolean;
   isDrawing: boolean;
@@ -17,6 +18,7 @@ interface DeckContextProps {
 
 const defaultDeckContextProps: DeckContextProps = {
   deck: [],
+  discardPile: [],
   drawnCard: null,
   isShuffling: false,
   isDrawing: false,
@@ -32,6 +34,7 @@ interface DeckProviderProps {
 
 export const DeckProvider = ({ children }: DeckProviderProps) => {
   const [deck, setDeck] = useState<Card[]>(defaultDeck); // Initialize with the default deck
+  const [discardPile, setDiscardPile] = useState<Card[]>([]); // Initialize with the default deck
   const [drawnCard, setDrawnCard] = useState<Card | null>(null);
   const [isShuffling, setIsShuffling] = useState<boolean>(false);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
@@ -58,15 +61,19 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
     setIsDrawing(true);
     setTimeout(() => {
       const newDeck = [...deck];
-      const card = newDeck.shift();
+      const card = newDeck.pop();
       setDeck(newDeck);
+
+      // Add card to discardPile
+      setDiscardPile(prevDiscardPile => card ? [...prevDiscardPile, card] : prevDiscardPile);
+
       setDrawnCard(card || null);
       setIsDrawing(false);
     }, 2500);
   };
 
   return (
-    <DeckContext.Provider value={{ deck, drawnCard, isShuffling, isDrawing, shuffle, draw }}>
+    <DeckContext.Provider value={{ deck, discardPile, drawnCard, isShuffling, isDrawing, shuffle, draw }}>
       {children}
     </DeckContext.Provider>
   );
