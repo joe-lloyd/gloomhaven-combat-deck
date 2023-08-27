@@ -1,10 +1,11 @@
 .discard-pile {
   margin-top: 25svh;
   position: relative;
+  top: 2px;
   width: 300px;
   height: 203px;
-  background-color: #fff;
   display: block;
+  border: 2px dashed #000; /* Adjust color and thickness as needed */
   /* transform value minus the height of the card */
   margin-bottom: 47px;
   border-radius: 15px;

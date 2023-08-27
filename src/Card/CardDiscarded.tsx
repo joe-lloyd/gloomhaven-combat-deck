@@ -16,10 +16,7 @@ function CardDiscarded({ returnToDeckAnimationTrigger, delay, frontImage, backIm
     from: { transform: 'rotateY(180deg) translate(0px, 0px)' },
   }));
 
-  console.log("delay: ", index * 100);
-
   React.useEffect(() => {
-    console.log('useEffect');
     if (returnToDeckAnimationTrigger) {
       console.log('returnToDeckAnimationTrigger: ', returnToDeckAnimationTrigger);
       slideRef.start({
