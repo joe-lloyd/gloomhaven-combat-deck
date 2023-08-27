@@ -7,10 +7,10 @@ interface CardProps {
   frontImage: string;
   backImage?: string;
   className?: string;
-  drawAnimationTrigger?: boolean;
+  drawAnimationTrigger: boolean;
 }
 
-function Card({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg" }: CardProps) {
+function Card({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg", index }: CardProps) {
   const [scaleSpring, scaleRef] = useSpring(() => ({
     from: { transform: 'scale(1) rotateY(0deg) translate(0px, 0px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)", transformOrigin: '150px 101.5px' },
   }))

@@ -12,6 +12,7 @@ interface DeckContextProps {
   drawnCard: Card | null;
   isShuffling: boolean;
   isDrawing: boolean;
+  isReturningToDeck: boolean;
   shuffle: () => void;
   draw: () => void;
 }
@@ -22,6 +23,7 @@ const defaultDeckContextProps: DeckContextProps = {
   drawnCard: null,
   isShuffling: false,
   isDrawing: false,
+  isReturningToDeck: false,
   shuffle: () => {},
   draw: () => {},
 }
@@ -37,18 +39,22 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
   const [discardPile, setDiscardPile] = useState<Card[]>([]); // Initialize with the default deck
   const [drawnCard, setDrawnCard] = useState<Card | null>(null);
   const [isShuffling, setIsShuffling] = useState<boolean>(false);
+  const [isReturningToDeck, setIsReturningToDeck] = useState<boolean>(false);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
 
   const shuffle = () => {
-    if (isShuffling || isDrawing) return;
-
-    setIsShuffling(true);
+    if (isShuffling || isDrawing || isReturningToDeck) return;
+    setIsReturningToDeck(true);
     setTimeout(() => {
-      const newDeck = [...deck];
-      newDeck.sort(() => Math.random() - 0.5);
-      setDeck(newDeck);
-      setIsShuffling(false);
-    }, 800);
+      setIsShuffling(true);
+      setIsReturningToDeck(false);
+      setTimeout(() => {
+        const newDeck = [...deck];
+        newDeck.sort(() => Math.random() - 0.5);
+        setDeck(newDeck);
+        setIsShuffling(false);
+      }, 800)
+    }, (discardPile.length + 1) * 100);
   };
 
   const draw = () => {
@@ -76,7 +82,7 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
   };
 
   return (
-    <DeckContext.Provider value={{ deck, discardPile, drawnCard, isShuffling, isDrawing, shuffle, draw }}>
+    <DeckContext.Provider value={{ deck, discardPile, drawnCard, isShuffling, isDrawing, isReturningToDeck, shuffle, draw }}>
       {children}
     </DeckContext.Provider>
   );
