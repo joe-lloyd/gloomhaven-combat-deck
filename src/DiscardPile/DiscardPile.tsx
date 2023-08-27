@@ -5,8 +5,6 @@ import CardDiscarded from "../Card/CardDiscarded";
 
 const DiscardPile: React.FC = () => {
   const { discardPile, isReturningToDeck  } = useContext(DeckContext);
-  
-  console.log("isReturningToDeck: ", isReturningToDeck);
 
   return (
     <div className="discard-pile">
@@ -17,6 +15,7 @@ const DiscardPile: React.FC = () => {
             frontImage={card.image}
             index={index}
             returnToDeckAnimationTrigger={isReturningToDeck}
+            delay={(discardPile.length - index - 1) * 100}
           />
         </div>
       ))}

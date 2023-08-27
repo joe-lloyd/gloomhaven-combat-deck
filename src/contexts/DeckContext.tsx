@@ -49,10 +49,11 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
       setIsShuffling(true);
       setIsReturningToDeck(false);
       setTimeout(() => {
-        const newDeck = [...deck];
+        const newDeck = [...deck, ...discardPile];
         newDeck.sort(() => Math.random() - 0.5);
         setDeck(newDeck);
         setIsShuffling(false);
+        setDiscardPile([]);
       }, 800)
     }, (discardPile.length + 1) * 100);
   };

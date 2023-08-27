@@ -8,25 +8,31 @@ interface CardProps {
   backImage?: string;
   className?: string;
   returnToDeckAnimationTrigger: boolean;
+  delay: number;
 }
 
-function CardDiscarded({ returnToDeckAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg", index }: CardProps) {
+function CardDiscarded({ returnToDeckAnimationTrigger, delay, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg", index }: CardProps) {
   const [slideSpring, slideRef] = useSpring(() => ({
-    from: { transform: 'scale(1) rotateY(180deg) translate(0px, -250px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)", transformOrigin: '150px -201.5px' },
+    from: { transform: 'rotateY(180deg) translate(0px, 0px)' },
   }));
 
+  console.log("delay: ", index * 100);
+
   React.useEffect(() => {
+    console.log('useEffect');
     if (returnToDeckAnimationTrigger) {
+      console.log('returnToDeckAnimationTrigger: ', returnToDeckAnimationTrigger);
       slideRef.start({
-        from: { transform: 'scale(1) rotateY(180deg) translate(0px, -250px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)", transformOrigin: '150px -201.5px' },
+        from: { transform: 'rotateY(180deg) translate(0px, 0px)' },
         to: [
-          { transform: 'scale(1) rotateY(0deg) translate(0px, 0px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)", transformOrigin: '150px 101.5px' },
+            { transform: 'rotateY(0deg) translate(0px, 50px)'},
+            { transform: 'rotateY(0deg) translate(0px, 250px)'}
         ],
         config: { mass: 1, tension: 500, friction: 50 },
-        delay: index * 100,
+        delay,
       });
     }
-  }, [returnToDeckAnimationTrigger, slideRef]);
+  }, [returnToDeckAnimationTrigger, slideRef, index]);
 
   return (
       <div className="card-container">
