@@ -62,13 +62,16 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
     setTimeout(() => {
       const newDeck = [...deck];
       const card = newDeck.pop();
-      setDeck(newDeck);
-
-      // Add card to discardPile
       setDiscardPile(prevDiscardPile => card ? [...prevDiscardPile, card] : prevDiscardPile);
 
       setDrawnCard(card || null);
-      setIsDrawing(false);
+
+      // Update deck after a delay so that there's no flickering
+      setTimeout(() => {
+        setDeck(newDeck);
+        setIsDrawing(false);
+      }, 500);
+
     }, 2500);
   };
 
