@@ -1,5 +1,6 @@
 :root {
   --primary-bg: #2B303A;
+  --secondary-bg: #1F2428;
   --primary-accent: #9A3324;
   --secondary-accent: #AC9153;
   --tertiary-accent: #396C56;
@@ -8,10 +9,9 @@
 }
 
 body {
-  background-color: var(--primary-bg);
+  background-color: var(--secondary-bg);
   color: var(--text-color);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow: hidden;
 }
