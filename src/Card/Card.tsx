@@ -10,7 +10,7 @@ interface CardProps {
   drawAnimationTrigger: boolean;
 }
 
-function Card({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg", index }: CardProps) {
+const Card =  ({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-Card-Back.jpg", index }: CardProps) => {
   const [scaleSpring, scaleRef] = useSpring(() => ({
     from: { transform: 'scale(1) rotateY(0deg) translate(0px, 0px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)", transformOrigin: '150px 101.5px' },
   }))
@@ -21,8 +21,8 @@ function Card({ drawAnimationTrigger, frontImage, backImage = "/Battle-Modifier-
         from: { transform: 'scale(1) rotateY(0deg) translate(0px, 0px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)" , transformOrigin: '150px 101.5px'},
         to: [
           { transform: 'scale(1.05) rotateY(0deg) translate(0px, -50px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)" , transformOrigin: '150px 51.5px'},
-          { transform: 'scale(1.05) rotateY(0deg) translate(1000px, -50px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)", transformOrigin: '1150px 51.5px'},
-          { transform: 'scale(1.05) rotateY(180deg) translate(1000px, -250px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)" , transformOrigin: '1150px -201.5px'},
+          { transform: 'scale(1.05) rotateY(0deg) translate(550px, -50px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)", transformOrigin: '700px 51.5px'},
+          { transform: 'scale(1.05) rotateY(180deg) translate(550px, -250px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)" , transformOrigin: '700px -201.5px'},
           { transform: 'scale(1.05) rotateY(180deg) translate(0px, -250px)', boxShadow: "0px 20px 30px 2px rgba(0, 0, 0, 0.2)" , transformOrigin: '150px -201.5px'},
           { transform: 'scale(1) rotateY(180deg) translate(0px, -250px)', boxShadow: "0px 0px 0px 0px rgba(0, 0, 0, 0.2)" , transformOrigin: '150px -201.5px'},
         ],

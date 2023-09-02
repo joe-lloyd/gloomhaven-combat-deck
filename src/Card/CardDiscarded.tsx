@@ -29,7 +29,7 @@ function CardDiscarded({ returnToDeckAnimationTrigger, delay, frontImage, backIm
         delay,
       });
     }
-  }, [returnToDeckAnimationTrigger, slideRef, index]);
+  }, [returnToDeckAnimationTrigger, slideRef, index, delay]);
 
   return (
       <div className="card-container">
