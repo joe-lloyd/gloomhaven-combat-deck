@@ -6,13 +6,14 @@ import CardDiscarded from "../Card/CardDiscarded";
 const DiscardPile: React.FC = () => {
   const { discardPile, isReturningToDeck } = useContext(DeckContext);
   const [onHoverAnimationTrigger, setOnHoverAnimationTrigger] = useState(false);
+  const hasEnoughCards = discardPile.length > 1;
 
   return (
     <div
       className="discard-pile"
-      onMouseEnter={() => setOnHoverAnimationTrigger(true)}
+      onMouseEnter={() => setOnHoverAnimationTrigger(hasEnoughCards)}
       onMouseLeave={() => setOnHoverAnimationTrigger(false)}
-      onTouchStart={() => setOnHoverAnimationTrigger(true)}
+      onTouchStart={() => setOnHoverAnimationTrigger(hasEnoughCards)}
       onTouchEnd={() => setOnHoverAnimationTrigger(false)}
     >
       {discardPile.map((card, index) => (

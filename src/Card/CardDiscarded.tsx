@@ -1,6 +1,7 @@
 import React from 'react';
 import './Card.css';
 import { animated, useSpring } from "react-spring";
+import transformOffset from "./helpers";
 
 interface CardProps {
   index: number;
@@ -20,7 +21,6 @@ function CardDiscarded({ onHoverAnimationTrigger, returnToDeckAnimationTrigger, 
 
   React.useEffect(() => {
     if (returnToDeckAnimationTrigger) {
-      console.log('returnToDeckAnimationTrigger: ', returnToDeckAnimationTrigger);
       slideRef.start({
         from: { transform: 'rotateY(180deg) translate(0px, 0px)' },
         to: [
@@ -34,11 +34,13 @@ function CardDiscarded({ onHoverAnimationTrigger, returnToDeckAnimationTrigger, 
   }, [returnToDeckAnimationTrigger, slideRef, index, delay]);
 
   React.useEffect(() => {
-    if (onHoverAnimationTrigger && (index === totalCards - 1 || index === totalCards - 2)) {
-      const xOffset = index === totalCards - 1 ? 150 : -150;
+    const isLastCard = totalCards - 1 === index;
+    const isSecondToLastCard = totalCards - 2 === index;
+    if (onHoverAnimationTrigger && (isLastCard || isSecondToLastCard)) {
+      const { xOffset, yOffset} = transformOffset(isLastCard);
       slideRef.start({
         from: { transform: 'rotateY(180deg) scale(1) translate(0px, 0px)' },
-        to: { transform: `rotateY(180deg) scale(0.5) translate(${xOffset}px, 0px)` },
+        to: { transform: `rotateY(180deg) scale(0.6) translate(${xOffset}px, ${yOffset}px)` },
         config: { mass: 1, tension: 500, friction: 50 },
       });
     } else {
