@@ -10,3 +10,15 @@ main {
   margin: 0 auto;
 }
 
+.cards-wrapper-outer {
+  height: calc(100lvh - 75px);
+  display: flex;
+  align-items: center;
+    justify-content: center;
+
+}
+
+.cards-wrapper-inner {
+  margin: 20px 0;
+}
+
