@@ -1,12 +1,23 @@
 import React, { useState, useContext } from 'react';
+import { useTransition, animated } from 'react-spring';
+
 import './DiscardPile.css';
 import { DeckContext } from "../contexts/DeckContext";
 import CardDiscarded from "../Card/CardDiscarded";
+import TouchIcon from "../TouchIcon/TouchIcon";
 
 const DiscardPile: React.FC = () => {
   const { discardPile, isReturningToDeck } = useContext(DeckContext);
   const [onHoverAnimationTrigger, setOnHoverAnimationTrigger] = useState(false);
   const hasEnoughCards = discardPile.length > 1;
+  const isTouchDevice = 'ontouchstart' in window;
+  const shouldShowIcon = discardPile.length > 1 && isTouchDevice;
+
+  const transitions = useTransition(shouldShowIcon, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
 
   return (
     <div
@@ -27,6 +38,9 @@ const DiscardPile: React.FC = () => {
           totalCards={discardPile.length}
         />
       ))}
+      {transitions((style, item) =>
+        item ? <animated.div style={style}><TouchIcon /></animated.div> : null
+      )}
     </div>
   );
 };
