@@ -6,6 +6,17 @@ import { DeckContext } from "../contexts/DeckContext";
 const Deck: React.FC = () => {
   const { isDrawing, isShuffling, deck } = useContext(DeckContext);
 
+  if (process.env.NODE_ENV === 'development') {
+    console.groupCollapsed("Deck State");
+    console.log(`Total Cards: ${deck.length}`);
+    console.log(`Is Drawing: ${isDrawing}`);
+    console.log(`Is Shuffling: ${isShuffling}`);
+    deck.forEach((card, index) => {
+      console.log(`Card ${index + 1}: ID=${card.id}, Type=${card.cardType}`);
+    });
+    console.groupEnd();
+  }
+
   return (
     <div className="deck">
       {deck.map((card, index) => (
