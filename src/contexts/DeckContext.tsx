@@ -1,12 +1,16 @@
 import React, { createContext, ReactNode, useState } from 'react';
 import {Card, defaultCombatDeck, scoundrelExtraCards} from './deckOfCards';
 
-interface Perk {
+export interface Perk {
   description: string;
   count: number;
   action: 'remove' | 'add' | 'replace';
   amount: number;
   cardType: string;
+  replaceWith?: string;
+  effect?: string;
+  rolling?: boolean;
+  ignoreScenarioEffects?: boolean;
 }
 
 interface DeckContextProps {

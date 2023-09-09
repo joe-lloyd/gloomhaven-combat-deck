@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './PerkList.css';
 import {usePerkToggle} from "./usePerkToggle";
+import {DeckContext, Perk} from "../contexts/DeckContext";
 
-const perks = [
+const perks: Perk[] = [
   { description: 'Remove two -1 cards', count: 1, action: 'remove', amount: 2, cardType: '-1'},
   { description: 'Remove four +0 cards', count: 1, action: 'remove', amount: 4, cardType: '+0'},
   { description: 'Replace one -2 card with one +0 card', count: 1, action: 'replace', amount: 1, cardType: '-2', replaceWith: '+0'},
@@ -22,6 +23,16 @@ const perks = [
 
 const ScoundrelPerkList: React.FC = () => {
   const {selectedPerks, togglePerk} = usePerkToggle();
+  const {applyPerk} = useContext(DeckContext);
+
+  React.useEffect(() => {
+    Object.keys(selectedPerks).forEach(description => {
+      const matchingPerk = perks.find(perk => perk.description === description);
+      if (matchingPerk) {
+        applyPerk(matchingPerk);
+      }
+    });
+  }, [selectedPerks, applyPerk]);
 
   return (
     <ul className="perk-list">

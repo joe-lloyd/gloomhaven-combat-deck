@@ -1,4 +1,5 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
+import {DeckContext} from "../contexts/DeckContext";
 
 export const usePerkToggle = () => {
   const [selectedPerks, setSelectedPerks] = useState<{ [key: string]: number }>({});
