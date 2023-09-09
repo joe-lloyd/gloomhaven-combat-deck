@@ -8,7 +8,16 @@
   border: 2px solid var(--primary-accent);
   border-radius: 5px;
   padding: 10px;
-  width: 250px;
+  width: auto;
+}
+
+.dev-info-tables {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dev-info-table-wrapper {
+  margin-right: 10px;
 }
 
 .dev-info-box table {

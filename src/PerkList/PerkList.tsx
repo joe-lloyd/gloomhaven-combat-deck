@@ -23,28 +23,30 @@ const perks: Perk[] = [
 
 const ScoundrelPerkList: React.FC = () => {
   const {selectedPerks, togglePerk} = usePerkToggle();
-  const {applyPerk} = useContext(DeckContext);
+  const {applyPerk, removePerk} = useContext(DeckContext);
 
-  React.useEffect(() => {
-    Object.keys(selectedPerks).forEach(description => {
-      const matchingPerk = perks.find(perk => perk.description === description);
-      if (matchingPerk) {
-        applyPerk(matchingPerk);
-      }
-    });
-  }, [selectedPerks, applyPerk]);
+  const handleTogglePerk = React.useCallback((description: string, index: number) => {
+    const newCount = togglePerk(description, index);
+    const matchingPerk = perks.find(perk => perk.description === description) as Perk;
+
+    if (newCount > 0) {
+      applyPerk(matchingPerk);
+    } else {
+      removePerk(matchingPerk);
+    }
+  }, [togglePerk, applyPerk, removePerk]);
 
   return (
     <ul className="perk-list">
       {perks.map((perk) => (
         <li key={perk.description} className="perk-list-item"
-            onClick={() => togglePerk(perk.description, perk.count - 1)}>
+            onClick={() => handleTogglePerk(perk.description, perk.count - 1)}>
           {Array.from({length: perk.count}, (_, index) => (
             <input
               key={index}
               type="checkbox"
               checked={selectedPerks[perk.description] ? selectedPerks[perk.description] > index : false}
-              onChange={() => togglePerk(perk.description, index)}
+              onChange={() => handleTogglePerk(perk.description, index)}
             />
           ))}
           {perk.description}

@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from 'react';
+import React, {createContext, ReactNode, useState} from 'react';
 import {Card, defaultCombatDeck, scoundrelExtraCards} from './deckOfCards';
 
 export interface Perk {
@@ -16,6 +16,8 @@ export interface Perk {
 interface DeckContextProps {
   deck: Card[];
   discardPile: Card[];
+  deadPile: Card[];
+  classDeck: Card[];
   drawnCard: Card | null;
   isShuffling: boolean;
   isDrawing: boolean;
@@ -23,18 +25,26 @@ interface DeckContextProps {
   shuffle: () => void;
   draw: () => void;
   applyPerk: (perk: Perk) => void;
+  removePerk: (perk: Perk) => void;
 }
 
 const defaultDeckContextProps: DeckContextProps = {
   deck: [],
   discardPile: [],
+  classDeck: [],
+  deadPile: [],
   drawnCard: null,
   isShuffling: false,
   isDrawing: false,
   isReturningToDeck: false,
-  shuffle: () => {},
-  draw: () => {},
-  applyPerk: () => {}
+  shuffle: () => {
+  },
+  draw: () => {
+  },
+  applyPerk: () => {
+  },
+  removePerk: () => {
+  },
 }
 
 export const DeckContext = createContext<DeckContextProps>(defaultDeckContextProps);
@@ -43,21 +53,25 @@ interface DeckProviderProps {
   children: ReactNode;
 }
 
-const removeCards = (currentDeck: Card[], perk: Perk): Card[] => {
-  return currentDeck.filter((card, index, self) => {
-    const cardsOfSameType = self.filter(cardItem => cardItem.cardType === perk.cardType);
-    return !(card.cardType === perk.cardType && cardsOfSameType.indexOf(card) < perk.amount);
-  });
+const moveCards = (
+  [fromDeck, setFromDeck]: [Card[], React.Dispatch<React.SetStateAction<Card[]>>],
+  [toDeck, setToDeck]: [Card[], React.Dispatch<React.SetStateAction<Card[]>>],
+  perk: Perk
+) => {
+  const cardsToMove = fromDeck.filter(card => card.cardType === perk.cardType).slice(0, perk.amount);
+
+  const newFromDeck = fromDeck.filter(card => !cardsToMove.includes(card));
+  const newToDeck = [...toDeck, ...cardsToMove];
+
+  setFromDeck(newFromDeck);
+  setToDeck(newToDeck);
 };
 
-const addCards = (currentDeck: Card[], perk: Perk, extraDeck: Card[]): Card[] => {
-  const cardsToAdd = extraDeck.filter(card => card.cardType === perk.cardType).slice(0, perk.amount);
-  return [...currentDeck, ...cardsToAdd];
-};
-
-export const DeckProvider = ({ children }: DeckProviderProps) => {
+export const DeckProvider = ({children}: DeckProviderProps) => {
   const [deck, setDeck] = useState<Card[]>(defaultCombatDeck); // Initialize with the default deck
-  const [discardPile, setDiscardPile] = useState<Card[]>([]); // Initialize with the default deck
+  const [classDeck, setClassDeck] = useState<Card[]>(scoundrelExtraCards); // Initialize with the default deck
+  const [discardPile, setDiscardPile] = useState<Card[]>([]);
+  const [deadPile, setDeadPile] = useState<Card[]>([]);
   const [drawnCard, setDrawnCard] = useState<Card | null>(null);
   const [isShuffling, setIsShuffling] = useState<boolean>(false);
   const [isReturningToDeck, setIsReturningToDeck] = useState<boolean>(false);
@@ -65,28 +79,54 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
   const [appliedPerks, setAppliedPerks] = useState<Perk[]>([]); // Initialize with no perks
 
   const applyPerk = (perk: Perk) => {
-    // Logic to update deck based on perk
     setAppliedPerks([...appliedPerks, perk]);
-    const newDeck = modifyDeckWithPerk(deck, perk, scoundrelExtraCards);
-    setDeck(newDeck);
+    modifyDeckWithPerk(perk);
   };
 
-  const modifyDeckWithPerk = (currentDeck: Card[], perk: Perk, extraDeck: Card[]): Card[] => {
+  const removePerk = (perk: Perk) => {
+    setAppliedPerks([...appliedPerks, perk]);
+    undoModifyDeckWithPerk(perk);
+  };
+
+  const modifyDeckWithPerk = (perk: Perk): void => {
     switch (perk.action) {
       case 'remove':
-        return removeCards(currentDeck, perk);
+        moveCards([deck, setDeck], [deadPile, setDeadPile], perk);
+        return;
 
       case 'add':
-        return addCards(currentDeck, perk, extraDeck);
+        moveCards([classDeck, setClassDeck], [deck, setDeck], perk);
+        return;
 
       case 'replace':
-        const deckAfterRemove = removeCards(currentDeck, perk);
-        return addCards(deckAfterRemove, perk, extraDeck);
+        moveCards([deck, setDeck], [deadPile, setDeadPile], perk);
+        moveCards([classDeck, setClassDeck], [deck, setDeck], perk);
+        return;
 
       default:
-        return currentDeck;
+        return;
     }
   };
+  const undoModifyDeckWithPerk = (perk: Perk): void => {
+    switch (perk.action) {
+      case 'remove':
+        moveCards([deadPile, setDeadPile], [deck, setDeck], perk);
+        return;
+
+      case 'add':
+        moveCards([deck, setDeck], [classDeck, setClassDeck], perk);
+        return;
+
+      case 'replace':
+        moveCards([deadPile, setDeadPile], [deck, setDeck], perk);
+        moveCards([deck, setDeck], [classDeck, setClassDeck], perk);
+        return;
+
+      default:
+        return;
+    }
+  };
+
   const shuffle = () => {
     if (isShuffling || isDrawing || isReturningToDeck) return;
     setIsReturningToDeck(true);
@@ -128,7 +168,20 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
   };
 
   return (
-    <DeckContext.Provider value={{ deck, discardPile, drawnCard, isShuffling, isDrawing, isReturningToDeck, shuffle, draw, applyPerk }}>
+    <DeckContext.Provider value={{
+      deck,
+      discardPile,
+      drawnCard,
+      isShuffling,
+      isDrawing,
+      isReturningToDeck,
+      shuffle,
+      draw,
+      applyPerk,
+      removePerk,
+      classDeck,
+      deadPile,
+    }}>
       {children}
     </DeckContext.Provider>
   );
