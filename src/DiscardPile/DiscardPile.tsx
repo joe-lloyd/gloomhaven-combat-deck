@@ -4,7 +4,7 @@ import { useTransition, animated } from 'react-spring';
 import './DiscardPile.css';
 import { DeckContext } from "../contexts/DeckContext";
 import CardDiscarded from "../Card/CardDiscarded";
-import TouchIcon from "../TouchIcon/TouchIcon";
+import TouchIcon from "../Icons/TouchIcon";
 
 const DiscardPile: React.FC = () => {
   const { discardPile, isReturningToDeck } = useContext(DeckContext);

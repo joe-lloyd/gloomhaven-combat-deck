@@ -1,0 +1,19 @@
+.sidebar {
+  background-color: var(--sidebar-bg);
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 90%;
+  max-width: 420px;
+  z-index: 5;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+}

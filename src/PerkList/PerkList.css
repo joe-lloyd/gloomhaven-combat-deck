@@ -1,0 +1,52 @@
+.perk-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.perk-list-item {
+  padding: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.perk-list-item:nth-child(odd) {
+  background-color: var(--primary-bg);
+}
+
+.perk-list-item:nth-child(even) {
+  background-color: var(--secondary-bg);
+}
+
+.perk-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: var(--secondary-bg);
+  border: 2px solid var(--text-color);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--primary-accent);
+  border-color: var(--text-color);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background-color: var(--text-color);
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
